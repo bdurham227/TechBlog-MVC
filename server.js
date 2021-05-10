@@ -4,7 +4,7 @@ const session = require('express-session');
 const exphbs = require('express-handlebars');
 
 //require routes
-// const routes = require('./controllers');
+const routes = require('./controllers');
 // //require helpers
 const helpers = require('./utils/helpers');
 
@@ -44,6 +44,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 //set middleware .use() for routes once we set them up
+app.use(routes);
 
 
 
