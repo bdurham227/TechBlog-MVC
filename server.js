@@ -4,7 +4,9 @@ const session = require('express-session');
 const exphbs = require('express-handlebars');
 
 //require routes
+const routes = require('./controllers');
 //require helpers
+const helpers = require('./utils/helpers');
 
 //sequelize 
 const sequelize = require('./config/connection');
@@ -14,7 +16,7 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 //create new environment of handlebars
-const hbs = exphbs.create({});
+const hbs = exphbs.create({ helpers });
 
 //create session
 // const sess = {
@@ -42,6 +44,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 //set middleware .use() for routes once we set them up
+
 
 
 sequelize.sync({ force: false }).then(() => {
