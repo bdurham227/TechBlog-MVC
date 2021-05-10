@@ -45,3 +45,24 @@ a {
     letter-spacing: 1.5px;
     padding-top: 5px;
   }
+
+ .card .card-header {
+     padding: 15px;
+     background-color: #231010;
+     color: #D7E3D1;
+     display: flex;
+    justify-content: space-between;
+    
+ }
+ .card .card-header p {
+     padding: 2px;
+     letter-spacing: 1.2px;
+    
+ }
+ .card .card-header a {
+     text-decoration: none;
+     color: #D7E3D1;
+ }
+
+
+ /* style="background-color: #231010; color:#D7E3D1" */

@@ -30,7 +30,7 @@ router.get('/', async (req, res) => {
 });
 
 //get
-router.get('/posts/:id', async ( req, res) => {
+router.get('/post/:id', async ( req, res) => {
     try {
         const dbPostData = await Post.findByPk(req.params.id, {
             include: [
@@ -42,9 +42,11 @@ router.get('/posts/:id', async ( req, res) => {
         });
 
         const posts = dbPostData.get({ plain: true });
-        //in the future will probably include/join comments table too
-        //res.render(dashboard)
-        res.status(200).json(posts);
+     
+        // res.status(200).json(posts);
+        res.render('dashboard', {
+            ...posts
+        });
 
 
     } catch (err) {
