@@ -37,6 +37,7 @@ router.get('/post/:id', async ( req, res) => {
             where: {
                 id: req.params.id,
             },
+            attributes: ["id", "post_title", "post_content","date_created"],
             include: [
                 {
                     model: User,
@@ -46,11 +47,12 @@ router.get('/post/:id', async ( req, res) => {
         });
 
         const posts = dbPostData.get({ plain: true });
+        console.log(posts)
      
         // res.status(200).json(posts);
         res.render('post', {
-            ...posts,
-            logged_in: req.session.logged_in, 
+            posts,
+            logged_in: req.session.logged_in 
         });
 
 
