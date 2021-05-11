@@ -61,33 +61,7 @@ router.get('/post/:id', async ( req, res) => {
     }
 });
 
-router.get('/dashboard', async (req, res) => {
-    try {
-        const dbUserData = await User.findAll(req.session.user_id, {
-            attributes: { exclude: ['password'] },
-            include: [
-                {
-                    model: Post,
-                },
-            ],
-        });
 
-        // const user = dbUserData.get({ plain: true });
-        const users = dbUserData.map((user) => user.get({ plain: true }));
-        console.log(...users);
-
-
-        res.render('dashboard', {
-            ...users,
-          logged_in: true,
-        });
-
-
-
-    } catch (err) {
-        res.status(500).json(err)
-    }
-});
 
 // router.get('/dashboard', async (req, res) => {
 //     try {
