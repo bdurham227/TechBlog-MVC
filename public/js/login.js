@@ -12,9 +12,9 @@ const loginFormHandler = async (event) => {
         });
 
         if (response.ok) {
-            document.location.replace('/dashboard');
+            document.location.replace('/homepage');
         } else {
-            alert(response.statusText);
+            alert("nope!", response.statusText);
         }
     }
 };
@@ -27,14 +27,14 @@ const signupFormHandler = async (event) => {
     const password = document.querySelector('#password-signup').value.trim();
 
     if (name && email && password) {
-        const reponse = await fetch('/api/users', {
+        const response = await fetch('/api/users', {
             method: 'POST',
             body: JSON.stringify({ name, email, password }),
             headers: { 'Content-Type' : 'application/json' },
         });
 
         if (response.ok) {
-            document.location.replace('/dashboard');
+            document.location.replace('/homepage');
         } else {
             alert(response.statusText);
         }

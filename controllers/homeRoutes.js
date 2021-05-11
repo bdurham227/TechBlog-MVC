@@ -21,6 +21,7 @@ router.get('/', async (req, res) => {
     //pass serialized data into template
       res.render('homepage', {
           posts,
+          logged_in: req.session.logged_in,
       });
 
 
@@ -32,7 +33,10 @@ router.get('/', async (req, res) => {
 //get
 router.get('/post/:id', async ( req, res) => {
     try {
-        const dbPostData = await Post.findByPk(req.params.id, {
+        const dbPostData = await Post.findOne({
+            where: {
+                id: req.params.id,
+            },
             include: [
                 {
                     model: User,
@@ -45,8 +49,37 @@ router.get('/post/:id', async ( req, res) => {
      
         // res.status(200).json(posts);
         res.render('post', {
-            ...posts
+            ...posts,
+            logged_in: req.session.logged_in, 
         });
+
+
+    } catch (err) {
+        res.status(500).json(err)
+    }
+});
+
+router.get('/dashboard', async (req, res) => {
+    try {
+        const dbUserData = await User.findAll(req.session.user_id, {
+            attributes: { exclude: ['password'] },
+            include: [
+                {
+                    model: Post,
+                },
+            ],
+        });
+
+        // const user = dbUserData.get({ plain: true });
+        const users = dbUserData.map((user) => user.get({ plain: true }));
+        console.log(...users);
+
+
+        res.render('dashboard', {
+            ...users,
+          logged_in: true,
+        });
+
 
 
     } catch (err) {
@@ -56,51 +89,26 @@ router.get('/post/:id', async ( req, res) => {
 
 // router.get('/dashboard', async (req, res) => {
 //     try {
-//         const dbUserData = await User.findByPk(req.session.user_id, {
-//             attributes: { exclude: ['password'] },
+//         const userData = await User.findAll({
+//             attributes: { exclude: ["password" ]},
 //             include: [
 //                 {
-//                     model: Post,
+//                     model: Post
 //                 },
 //             ],
 //         });
+        
+//         const users = userData.map((user) => user.get({ plain: true }));
 
-//         const user = dbUserData.get({ plain: true });
 
 //         res.render('dashboard', {
-//             ...user,
-          
-//         });
-
-
+//             ...users
+//         })
 
 //     } catch (err) {
 //         res.status(500).json(err)
 //     }
 // });
-
-router.get('/dashboard', async (req, res) => {
-    try {
-        const userData = await User.findAll({
-            attributes: { exclude: ["password" ]},
-            include: [
-                {
-                    model: Post
-                },
-            ],
-        });
-        
-        const users = userData.map((user) => user.get({ plain: true }));
-
-
-        res.render('dashboard', {
-            ...users
-        })
-
-    } catch (err) {
-        res.status(500).json(err)
-    }
-})
 
 
 
@@ -111,7 +119,7 @@ router.get('/dashboard', async (req, res) => {
 
 router.get('/login', (req, res) => {
     if (req.session.logged_in) {
-        res.redirect('/post');
+        res.redirect('/');
         return;
     }
 

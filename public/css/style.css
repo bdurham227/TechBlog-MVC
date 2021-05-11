@@ -45,6 +45,10 @@ a {
     letter-spacing: 1.5px;
     padding-top: 5px;
   }
+  
+  .card {
+      border: 3px solid;
+  }
 
  .card .card-header {
      padding: 15px;
@@ -62,6 +66,15 @@ a {
  .card .card-header a {
      text-decoration: none;
      color: #D7E3D1;
+ }
+
+
+ #post-title {
+     border: 2px solid lightskyblue;
+ }
+
+ #post-content {
+    border: 2px solid lightskyblue;
  }
 
 
