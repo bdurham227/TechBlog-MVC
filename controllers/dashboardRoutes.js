@@ -33,7 +33,48 @@ router.get('/', async (req, res) => {
     } catch (err) {
         res.status(500).json(err)
     }
+})
+
+router.get('/:id', async(req, res) => {
+    try {
+        const postData = await Post.findOne({
+            where: {
+                id: req.params.id,
+            },
+            include: [
+                {
+                    model: User,
+                    attributes: ["username"],
+                }
+            ]
+        });
+
+        const posts = postData.get({ plain: true });
+        res.render('post', {
+            posts,
+        });
+
+    } catch (err) {
+        res.status(500).json(err)
+    }
 });
+
+router.post('/', async (req, res) => {
+    try {
+
+        const postData = await Post.create(req.body, {
+            post_title: req.body.post_title,
+            post_content: req.body.post_content,
+            date_created: req.body.date_created,
+        });
+        res.status(200).json(postData);
+
+
+
+    } catch (err) {
+        res.status(500).json(err)
+    }
+})
 
 
 

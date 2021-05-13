@@ -48,16 +48,13 @@ router.get('/:id', async (req, res) => {
 
 
 
-
-
-
-
 router.post('/', async (req, res) => {
+    console.log("----------------THIS IS FOR SIGN UP-------------------------")
     try {
         const dbUserData = await User.create({
             username: req.body.username,
             email: req.body.email,
-            password: req.body.password,
+            // password: req.body.password,
         })
 
         req.session.save(() => {
@@ -66,6 +63,7 @@ router.post('/', async (req, res) => {
             req.session.logged_in = true;
 
             res.status(200).json(dbUserData);
+            console.log(dbUserData)
         })
     } catch (err) {
         res.status(500).json(err)
@@ -77,6 +75,7 @@ router.post('/login', async (req, res) => {
         const dbUserData = await User.findOne({
             where: {
                 email: req.body.email,
+                password: req.body.password,
             },
         });
 
@@ -100,7 +99,7 @@ router.post('/login', async (req, res) => {
             req.session.user_id = dbUserData.id;
             req.session.email = dbUserData.email;
             req.session.logged_in = true;
-
+            console.log(dbUserData);
             res.json({ user: dbUserData, message: 'You are now logged in' });
         })
 
