@@ -57,7 +57,7 @@ router.post('/', async (req, res) => {
         const postData = await Post.create({
             post_title: req.body.post_title,
             post_content: req.body.post_content,
-            // user_id: req.session.user_id,
+            user_id: req.session.user_id,
         });
 
         res.status(200).json(postData);
@@ -69,6 +69,54 @@ router.post('/', async (req, res) => {
     }
 })
 
+//update
+router.put('/:id', async (req, res) => {
+    try {
+        const postData = await Post.update({
+            post_title: req.body.post_title,
+            post_content: req.body.post_content,
+           
+        },
+        {
+            where: {
+                id: req.params.id,
+            },
+        });
+        if(!postData) {
+            res.status(400).json({ message: `no id with ${req.params.id} found!` });
+            return;
+        }
+
+        res.status(200).json(postData);
+
+
+
+    } catch (err) {
+        res.status(500).json(err)
+    }
+});
+
+//delete
+router.delete('/:id', async (req, res) => {
+    try {
+
+        const postData = await Post.destroy({
+            where: {
+                id: req.params.id,
+            },
+        });
+
+        if(!postData) {
+            res.status(400).json({ message: `no id with ${req.params.id} found!` });
+            return;
+        }
+        res.status(204).json(postData);
+
+
+    } catch (err) {
+        res.status(500).json(err)
+    }
+})
 
 
 
